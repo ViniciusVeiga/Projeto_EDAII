@@ -71,6 +71,7 @@ namespace Projeto_EDAII
                     {
                         if (n.Edges.Any(c => RemoveAcentos(c.To.Name).ToLower() == RemoveAcentos(nEnd.Name).ToLower()))
                         {
+                            BuildAnswer(n);
                             break;
                         }
 
@@ -86,7 +87,6 @@ namespace Projeto_EDAII
                     }
 
                 } while (nQueue.Count > 0);
-
             }
             catch (Exception)
             {
@@ -94,6 +94,17 @@ namespace Projeto_EDAII
 
                 throw;
             }
+        }
+
+        public static void BuildAnswer(Node n)
+        {
+            foreach (var item in n.)
+            {
+
+            }
+
+            Console.WriteLine("Digite a palavra de procura:");
+
         }
 
         public static string RemoveAcentos(string text)
@@ -118,7 +129,9 @@ namespace Projeto_EDAII
                 GetHtml(n);
                 doc.LoadHtml(n.Html);
 
-                foreach (HtmlNode item in doc.DocumentNode.SelectSingleNode("/html/body").SelectNodes("//a/@href"))
+                //doc.DocumentNode.SelectSingleNode("/html/body")
+
+                foreach (HtmlNode item in doc.DocumentNode.SelectNodes("//a/@href"))
                 {
                     if (item != null)
                     {
@@ -129,7 +142,7 @@ namespace Projeto_EDAII
                              && item.Attributes["href"].Value.StartsWith("/wiki/")
                              && !item.InnerHtml.Contains("<"))
                             {
-                                if (names.Add(item.Attributes["href"].Value))
+                                if (names.Add(item.InnerHtml))
                                 {
                                     n.AddEdge(new Node()
                                     {
@@ -159,12 +172,16 @@ namespace Projeto_EDAII
                 request.Method = "GET";
                 WebResponse response = request.GetResponse();
                 StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
-                n.Html = Uri.UnescapeDataString(sr.ReadToEnd());
+                n.Html = sr.ReadToEnd();
             }
-            catch (Exception)
+            catch
             {
-
-                throw;
+                n.Url = Uri.UnescapeDataString(n.Url);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Concat(baseUrl, n.Url));
+                request.Method = "GET";
+                WebResponse response = request.GetResponse();
+                StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
+                n.Html = sr.ReadToEnd();
             }
         }
     }
