@@ -60,6 +60,7 @@ namespace Projeto_EDAII
                 List<Node> nList = new List<Node>();
 
                 nStart.Url = string.Concat("/wiki/", nStart.Name);
+                nEnd.Url = string.Concat("/wiki/", nEnd.Name);
                 nQueue.Enqueue(nStart);
 
                 do
@@ -67,23 +68,19 @@ namespace Projeto_EDAII
                     Node n = nQueue.Dequeue();
                     GetSucessors(ref n);
 
-                    if (n.Visited != true)
+                    if (n.Edges.Any(c => RemoveAcentos(c.To.Name).ToLower() == RemoveAcentos(nEnd.Name).ToLower()))
                     {
-                        if (n.Edges.Any(c => RemoveAcentos(c.To.Name).ToLower() == RemoveAcentos(nEnd.Name).ToLower()))
-                        {
-                            BuildAnswer(n);
-                            break;
-                        }
+                        BuildAnswer(n);
+                        break;
+                    }
 
-                        foreach (Edge e in n.Edges)
-                        {
-                            if (e.To.Visited != true)
-                            {
-                                e.To.Visited = true;
-                                e.To.Parent = n;
-                                nQueue.Enqueue(e.To);
-                            }
-                        }
+                    foreach (Edge e in n.Edges)
+                    {
+
+                        e.To.Visited = true;
+                        e.To.Parent = n;
+                        nQueue.Enqueue(e.To);
+
                     }
 
                 } while (nQueue.Count > 0);
@@ -98,13 +95,19 @@ namespace Projeto_EDAII
 
         public static void BuildAnswer(Node n)
         {
-            foreach (var item in n.)
-            {
+            List<string> answers = new List<string>();
 
+            while (n.Name != nStart.Name)
+            {
+                answers.Add(n.Url);
+                n = n.Parent;
             }
 
-            Console.WriteLine("Digite a palavra de procura:");
+            Console.Write(string.Concat(baseUrl, nStart.Url, " -> "));
 
+            answers.ForEach(c => Console.Write(string.Concat(baseUrl, c, " -> ")));
+
+            Console.Write(string.Concat(baseUrl, nEnd.Url));
         }
 
         public static string RemoveAcentos(string text)
@@ -152,7 +155,7 @@ namespace Projeto_EDAII
                                 }
                             }
                         }
-    
+
                     }
                 }
             }
@@ -161,7 +164,7 @@ namespace Projeto_EDAII
 
                 throw ex;
             }
-        
+
         }
 
         public static void GetHtml(Node n)
