@@ -30,7 +30,10 @@ namespace Projeto_EDAII
                 Console.WriteLine("Digite a palavra de procura:");
                 nEnd.Name = RemoveAcentos(Console.ReadLine()).ToLower();
 
-                if (Exist())
+                nStart.Url = string.Concat("/wiki/", nStart.Name);
+                nEnd.Url = string.Concat("/wiki/", nEnd.Name);
+
+                if (Exist(nStart.Url) && Exist(nEnd.Url))
                 {
                     if (nStart.Name != nEnd.Name)
                     {
@@ -46,33 +49,26 @@ namespace Projeto_EDAII
                     Console.WriteLine("Uma das duas URLs não existe!!");
                 }
 
-
                 Console.WriteLine("-------------------------------------------------------------------------");
             } while (true);
         }
 
-        public static bool Exist()
+        public static bool Exist(string url)
         {
             try
             {
                 /// Testa a chamada das duas URLs para ver se existe, se cair no catch retorna false.
-                HttpWebRequest requestStart = (HttpWebRequest)WebRequest.Create(nStart.Url);
-                requestStart.Method = "GET";
-                WebResponse responseStart = requestStart.GetResponse();
-                StreamReader srStart = new StreamReader(responseStart.GetResponseStream(), Encoding.UTF8);
-
-                HttpWebRequest requestEnd = (HttpWebRequest)WebRequest.Create(nEnd.Url);
-                requestEnd.Method = "GET";
-                WebResponse responseEnd = requestEnd.GetResponse();
-                StreamReader srEnd = new StreamReader(responseEnd.GetResponseStream(), Encoding.UTF8);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Concat(baseUrl, url));
+                request.Method = "HEAD";
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                response.Close();
+                return (response.StatusCode == HttpStatusCode.OK);
             }
             catch (Exception)
             {
 
                 return false;
             }
-
-            return true;
         }
 
         public static void FindSolution()
@@ -82,8 +78,6 @@ namespace Projeto_EDAII
                 Queue<Node> nQueue = new Queue<Node>();
                 List<Node> nList = new List<Node>();
 
-                nStart.Url = string.Concat("/wiki/", nStart.Name);
-                nEnd.Url = string.Concat("/wiki/", nEnd.Name);
                 nQueue.Enqueue(nStart);
 
                 do
@@ -124,8 +118,8 @@ namespace Projeto_EDAII
 
             answers.Reverse();
 
-            answers.Insert(0, nStart.Url.Replace(baseUrl, string.Empty));
-            answers.Add(nEnd.Url.Replace(baseUrl, string.Empty));
+            answers.Insert(0, nStart.Url);
+            answers.Add(nEnd.Url);
 
             for (int i = 0; i < answers.Count; i++)
             {
