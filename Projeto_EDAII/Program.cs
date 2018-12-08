@@ -67,11 +67,9 @@ namespace Projeto_EDAII
 
                     foreach (Edge e in n.Edges)
                     {
-
                         e.To.Visited = true;
                         e.To.Parent = n;
                         nQueue.Enqueue(e.To);
-
                     }
 
                 } while (nQueue.Count > 0);
