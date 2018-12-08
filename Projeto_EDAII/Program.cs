@@ -23,24 +23,56 @@ namespace Projeto_EDAII
         static void Main(string[] args)
         {
             do
-            {    
+            {
                 Console.WriteLine("Digite a palavra de partida:");
                 nStart.Name = RemoveAcentos(Console.ReadLine()).ToLower();
 
                 Console.WriteLine("Digite a palavra de procura:");
                 nEnd.Name = RemoveAcentos(Console.ReadLine()).ToLower();
 
-                if (nStart.Name != nEnd.Name)
+                if (Exist())
                 {
-                    FindSolution();
+                    if (nStart.Name != nEnd.Name)
+                    {
+                        FindSolution();
+                    }
+                    else
+                    {
+                        Console.WriteLine("As palavras são iguais!!");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("As palavras são iguais!!");
+                    Console.WriteLine("Uma das duas URLs não existe!!");
                 }
+
 
                 Console.WriteLine("-------------------------------------------------------------------------");
             } while (true);
+        }
+
+        public static bool Exist()
+        {
+            try
+            {
+                /// Testa a chamada das duas URLs para ver se existe, se cair no catch retorna false.
+                HttpWebRequest requestStart = (HttpWebRequest)WebRequest.Create(nStart.Url);
+                requestStart.Method = "GET";
+                WebResponse responseStart = requestStart.GetResponse();
+                StreamReader srStart = new StreamReader(responseStart.GetResponseStream(), Encoding.UTF8);
+
+                HttpWebRequest requestEnd = (HttpWebRequest)WebRequest.Create(nEnd.Url);
+                requestEnd.Method = "GET";
+                WebResponse responseEnd = requestEnd.GetResponse();
+                StreamReader srEnd = new StreamReader(responseEnd.GetResponseStream(), Encoding.UTF8);
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+
+            return true;
         }
 
         public static void FindSolution()
@@ -97,14 +129,14 @@ namespace Projeto_EDAII
 
             for (int i = 0; i < answers.Count; i++)
             {
-                Console.WriteLine(string.Format("{0} - {1}{2}", i + 1, baseUrl, answers[i]));
+                Console.WriteLine(string.Format("{0} - {1}{2}", i + 1, baseUrl, Uri.UnescapeDataString(answers[i])));
             }
         }
 
         public static string RemoveAcentos(string text)
         {
-            string with = "ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç";
-            string without = "AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc";
+            string with = "ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûù";
+            string without = "AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuu";
 
             for (int i = 0; i < with.Length; i++)
             {
@@ -125,7 +157,9 @@ namespace Projeto_EDAII
 
                 //doc.DocumentNode.SelectSingleNode("/html/body")
 
-                foreach (HtmlNode item in doc.DocumentNode.SelectNodes("//a/@href"))
+                //doc.DocumentNode
+
+                foreach (HtmlNode item in doc.DocumentNode.SelectSingleNode("/html/body").SelectNodes("//a/@href"))
                 {
                     if (item != null)
                     {
