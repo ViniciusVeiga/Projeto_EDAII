@@ -14,7 +14,6 @@ namespace Projeto_EDAII
 {
     class Program
     {
-        public static Graph graph = new Graph();
         public static Node nStart = new Node();
         public static Node nEnd = new Node();
         public static HashSet<string> names = new HashSet<string>();
@@ -23,33 +22,25 @@ namespace Projeto_EDAII
 
         static void Main(string[] args)
         {
+            do
+            {    
+                Console.WriteLine("Digite a palavra de partida:");
+                nStart.Name = RemoveAcentos(Console.ReadLine()).ToLower();
 
-            Console.WriteLine("Digite a palavra de partida:");
-            nStart.Name = Console.ReadLine();
+                Console.WriteLine("Digite a palavra de procura:");
+                nEnd.Name = RemoveAcentos(Console.ReadLine()).ToLower();
 
-            Console.WriteLine("Digite a palavra de procura:");
-            nEnd.Name = Console.ReadLine();
+                if (nStart.Name != nEnd.Name)
+                {
+                    FindSolution();
+                }
+                else
+                {
+                    Console.WriteLine("As palavras são iguais!!");
+                }
 
-            if (!TargetFound(nStart))
-            {
-                FindSolution();
-            }
-            else
-            {
-                Console.WriteLine("As palavras são iguais!!");
-            }
-
-            Console.ReadKey();
-        }
-
-        public static bool TargetFound(Node n)
-        {
-            if (RemoveAcentos(n.Name.ToLower()).Equals(RemoveAcentos(nEnd.Name.ToLower())))
-            {
-                return true;
-            }
-
-            return false;
+                Console.WriteLine("-------------------------------------------------------------------------");
+            } while (true);
         }
 
         public static void FindSolution()
@@ -68,7 +59,7 @@ namespace Projeto_EDAII
                     Node n = nQueue.Dequeue();
                     GetSucessors(ref n);
 
-                    if (n.Edges.Any(c => RemoveAcentos(c.To.Name).ToLower() == RemoveAcentos(nEnd.Name).ToLower()))
+                    if (n.Edges.Any(c => c.To.Name == nEnd.Name))
                     {
                         BuildAnswer(n);
                         break;
@@ -88,8 +79,6 @@ namespace Projeto_EDAII
             catch (Exception)
             {
                 Console.WriteLine("Pagina não existe (404)");
-
-                throw;
             }
         }
 
@@ -103,11 +92,15 @@ namespace Projeto_EDAII
                 n = n.Parent;
             }
 
-            Console.Write(string.Concat(baseUrl, nStart.Url, " -> "));
+            answers.Reverse();
 
-            answers.ForEach(c => Console.Write(string.Concat(baseUrl, c, " -> ")));
+            answers.Insert(0, nStart.Url.Replace(baseUrl, string.Empty));
+            answers.Add(nEnd.Url.Replace(baseUrl, string.Empty));
 
-            Console.Write(string.Concat(baseUrl, nEnd.Url));
+            for (int i = 0; i < answers.Count; i++)
+            {
+                Console.WriteLine(string.Format("{0} - {1}{2}", i + 1, baseUrl, answers[i]));
+            }
         }
 
         public static string RemoveAcentos(string text)
@@ -149,7 +142,7 @@ namespace Projeto_EDAII
                                 {
                                     n.AddEdge(new Node()
                                     {
-                                        Name = item.InnerHtml,
+                                        Name = RemoveAcentos(item.InnerHtml).ToLower(),
                                         Url = item.Attributes["href"].Value
                                     });
                                 }

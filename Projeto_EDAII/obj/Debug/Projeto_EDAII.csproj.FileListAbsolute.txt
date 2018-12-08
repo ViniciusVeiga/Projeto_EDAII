@@ -19,3 +19,14 @@ C:\EDA\Projeto\Projeto_EDAII\Projeto_EDAII\obj\Debug\Projeto_EDAII.csproj.CoreCo
 C:\EDA\Projeto\Projeto_EDAII\Projeto_EDAII\obj\Debug\Projeto_EDAII.exe
 C:\EDA\Projeto\Projeto_EDAII\Projeto_EDAII\obj\Debug\Projeto_EDAII.pdb
 C:\EDA\Projeto\Projeto_EDAII\Projeto_EDAII\obj\Debug\Projeto_EDAII.csprojResolveAssemblyReference.cache
+C:\Users\Veiga\Desktop\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\bin\Debug\Projeto_EDAII.exe.config
+C:\Users\Veiga\Desktop\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\bin\Debug\Projeto_EDAII.exe
+C:\Users\Veiga\Desktop\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\bin\Debug\Projeto_EDAII.pdb
+C:\Users\Veiga\Desktop\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\bin\Debug\HtmlAgilityPack.dll
+C:\Users\Veiga\Desktop\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\Veiga\Desktop\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\bin\Debug\HtmlAgilityPack.xml
+C:\Users\Veiga\Desktop\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\obj\Debug\Projeto_EDAII.csprojAssemblyReference.cache
+C:\Users\Veiga\Desktop\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\obj\Debug\Projeto_EDAII.csproj.CoreCompileInputs.cache
+C:\Users\Veiga\Desktop\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\obj\Debug\Projeto_EDAII.csproj.CopyComplete
+C:\Users\Veiga\Desktop\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\obj\Debug\Projeto_EDAII.exe
+C:\Users\Veiga\Desktop\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\Projeto_EDAII\obj\Debug\Projeto_EDAII.pdb
